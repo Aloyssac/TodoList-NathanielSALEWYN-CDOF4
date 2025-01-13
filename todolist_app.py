@@ -23,7 +23,7 @@ class ToDoList:
 
     def run(self):
         while True:
-            print("\n----------- To-Do List Application -----------")
+            print("\n------------- To-Do List Application -------------")
             print("1. View Tasks")
             print("2. Add Task")
             print("3. Delete Task")
