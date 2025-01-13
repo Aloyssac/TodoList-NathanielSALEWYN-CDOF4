@@ -1,7 +1,30 @@
+import json
+import os
+
 class ToDoList:
-    def __init__(self):
+    def __init__(self, file_path="tasks.json"):
+        self.file_path = file_path
         self.tasks = []
         self.completed_tasks = []
+        self.load_tasks()
+
+    def load_tasks(self):
+        """Load tasks from a JSON file, if it exists."""
+        if os.path.exists(self.file_path):
+            with open(self.file_path, "r") as file:
+                data = json.load(file)
+                self.tasks = data.get("tasks", [])
+                self.completed_tasks = data.get("completed_tasks", [])
+        else:
+            print("No saved tasks found. Starting a new list.")
+
+    def save_tasks(self):
+        """Save tasks and completed tasks to a JSON file."""
+        with open(self.file_path, "w") as file:
+            json.dump({
+                "tasks": self.tasks,
+                "completed_tasks": self.completed_tasks
+            }, file, indent=4)
 
     def show_tasks(self):
         if not self.tasks:
@@ -21,11 +44,13 @@ class ToDoList:
 
     def add_task(self, task):
         self.tasks.append(task)
+        self.save_tasks()  # Save tasks after adding
         print(f"Task added: {task}")
 
     def delete_task(self, task_number):
         if 0 < task_number <= len(self.tasks):
             removed_task = self.tasks.pop(task_number - 1)
+            self.save_tasks()  # Save tasks after deletion
             print(f"Task removed: {removed_task}")
         else:
             print("Invalid task number.")
@@ -34,6 +59,7 @@ class ToDoList:
         if 0 < task_number <= len(self.tasks):
             completed_task = self.tasks.pop(task_number - 1)
             self.completed_tasks.append(completed_task)
+            self.save_tasks()  # Save tasks after completion
             print(f"Task completed: {completed_task}")
         else:
             print("Invalid task number.")
