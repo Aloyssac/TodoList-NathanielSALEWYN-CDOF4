@@ -6,6 +6,7 @@ This project is a console-based ToDo List application written in Python. It allo
 - View all tasks
 - Add a new task
 - Delete an existing task
+- Keep the tasks in a .json file
 
 ## Installation and Setup
 
